@@ -1,0 +1,2 @@
+rootProject.name = 'mvn-utils'
+enableFeaturePreview('VERSION_CATALOGS')

@@ -1,0 +1,192 @@
+:rootdir: ../../..
+:github-readme: {rootdir}/README.adoc
+:srcdir: {rootdir}/src/
+:listing-caption: Listing
+:revdate: {project-builddate}
+:revnumber: {project-version}
+
+include::{github-readme}[tags=vardef]
+
+:projectpage: https://github.com/{gh-repo-owner}/{gh-repo-name}
+
+include::{github-readme}[tags=header]
+
+== URLs
+
+* link:{homepage}[Project home] (this page)
+* link:{projectpage}[GitHub project]
+* link:{issues}[Issue tracker]
+
+TIP: Do you want to improve this page? Please git-link:self[edit it on GitHub, edit].
+
+== Usage
+
+All the logic is in the main class: `fr.jmini.utils.mvnutils.Maven`
+
+=== Accessing the base url of maven central
+
+[source, java, indent=0]
+.maven central url constant
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=MavenCentralUrlConstant]
+----
+
+
+=== Calculate the URL of an artifact in maven central
+
+For a POM file:
+
+[source, java, indent=0]
+.maven central url of the pom file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=PomMavenCentralUrl]
+----
+
+For a JAR file:
+
+[source, java, indent=0]
+.maven central url of the jar file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=JarMavenCentralUrl]
+----
+
+For any other type you can also provide an extension as parameter (`".jar"` in this example):
+
+[source, java, indent=0]
+.maven central url of any file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=MavenCentralUrl]
+----
+
+=== Calculate the path of an artifact in a local maven repo
+
+For a POM file:
+
+[source, java, indent=0]
+.local path of the pom file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=PomPathInRepository]
+----
+
+For a JAR file:
+
+[source, java, indent=0]
+.local path of the jar file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=JarPathInRepository]
+----
+
+For any other type you can also provide an extension as parameter (`".jar"` in this example):
+
+[source, java, indent=0]
+.local path of any file of a given artifact
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=PathInRepository]
+----
+
+=== Write a file in a local repository
+
+Example for a pom file:
+
+[source, java, indent=0]
+.write a file in a local repository
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=WritePomFileToRepository]
+----
+
+=== Handle armored files in a local repository
+
+[source, java, indent=0]
+.handle armored files (write and verify)
+----
+include::../../test/java/fr/jmini/utils/mvnutils/MavenTest.java[tags=ArmoredFilesInRepository]
+----
+<1> creates the armored files
+<2> verifies the armored files
+
+== Download
+
+The library is hosted on maven central.
+
+Last stable version is: {last-stable-version}.
+
+[source, xml, subs="verbatim,attributes"]
+.coordinates on maven central (xml notation)
+----
+<dependency>
+  <groupId>{maven-group-id}</groupId>
+  <artifactId>{maven-artifact-id}</artifactId>
+  <version>{last-stable-version}</version>
+</dependency>
+----
+
+[source, subs="verbatim,attributes"]
+.coordinates on maven central (single line notation)
+----
+{maven-group-id}:{maven-artifact-id}:{last-stable-version}
+----
+
+== Source Code
+
+As for any java project, the source code of the plugin is available in the git-link:src/[src/] folder.
+
+=== Build
+
+This project is using gradle.
+
+Command to build the sources locally:
+
+----
+./gradlew build
+----
+
+Command to deploy to your local maven repository:
+
+----
+./gradlew publishToMavenLocal
+----
+
+Command to build the documentation page:
+
+----
+./gradlew asciidoctor
+----
+
+The output of this command is an HTML page located at `<git repo root>/build/docs/html5/index.html`.
+
+==== For project maintainers
+
+`signing.gnupg.keyName` and `signing.gnupg.passphrase` are expected to be set in your local `gradle.properties` file to be able to sign.
+
+Command to upload the documentation page on GitHub pages:
+
+----
+./gradlew gitPublishPush
+----
+
+Command to perform a release:
+
+----
+./gradlew release -Prelease.useAutomaticVersion=true
+----
+
+==== Using ssh-agent
+
+Some tasks requires to push into the distant git repository (release task or updating the `gh-pages` branch).
+If they are failing with errors like this:
+----
+org.eclipse.jgit.api.errors.TransportException: ... Permission denied (publickey).
+---- 
+
+Then `ssh-agent` can be used.
+----
+eval `ssh-agent -s`
+ssh-add ~/.ssh/id_rsa
+----
+(link:https://superuser.com/a/990447/[source] for this approach)
+
+
+include::{github-readme}[tags=contact-section]
+
+include::{github-readme}[tags=license-section]
+
