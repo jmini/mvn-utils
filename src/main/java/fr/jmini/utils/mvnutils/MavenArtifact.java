@@ -9,6 +9,7 @@ public class MavenArtifact {
 
     public MavenArtifact(String groupId, String artifactId, String version) {
         this(groupId, artifactId, version, null);
+        String s = "test";
     }
 
     public MavenArtifact(MavenArtifact artifact, String classifier) {
